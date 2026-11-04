@@ -46,10 +46,10 @@
 - [🟢 COMPLETADO] **2.3 Protocolo Operativo Día 1 y Plantilla Maestra:** Manual para operarios no técnicos (`MANUAL_OPERATIVO_DIA_1.md`) y libro Excel con validaciones anti-error (`plantilla_maestra_contingencia.xlsx`).
 
 ### Fase 3: MVP Web Centralizado - Backend (Fase B)
-- [⚪ PENDIENTE] **3.1 Base de Datos y ORM:** Configuración de NestJS + Prisma con modelos `Product` e `InventoryMovement`.
-- [⚪ PENDIENTE] **3.2 Módulo de Catálogo y Alertas de Reabastecimiento:** Cálculo dinámico de Punto de Reorden (`availableStock <= minStock`).
-- [⚪ PENDIENTE] **3.3 Motor Transaccional de Kardex:** Endpoints de Entrada, Salida y Ajuste con bloqueo de concurrencia/transacción.
-- [⚪ PENDIENTE] **3.4 Seeder de Continuidad Operativa:** Carga automática de los insumos gastronómicos consolidados en la Fase A.
+- [🟢 COMPLETADO] **3.1 Base de Datos y ORM:** Configuración de NestJS + Prisma con modelos `Product` e `InventoryMovement`.
+- [🟢 COMPLETADO] **3.2 Módulo de Catálogo y Alertas de Reabastecimiento:** Cálculo dinámico de Punto de Reorden (`availableStock <= minStock`).
+- [🟢 COMPLETADO] **3.3 Motor Transaccional de Kardex:** Endpoints de Entrada, Salida y Ajuste con bloqueo de concurrencia/transacción.
+- [🟢 COMPLETADO] **3.4 Seeder de Continuidad Operativa:** Carga automática de los insumos gastronómicos consolidados en la Fase A.
 
 ### Fase 4: MVP Web Centralizado - Frontend y Docker (Fase B)
 - [⚪ PENDIENTE] **4.1 Dashboard de Visibilidad de Almacén:** Interfaz en React + Tailwind con KPIs críticos y filtro de compras urgentes.
