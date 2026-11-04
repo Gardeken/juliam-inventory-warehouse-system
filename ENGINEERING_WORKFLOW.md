@@ -41,9 +41,9 @@
 - [🟢 COMPLETADO] **1.1 Diagnóstico de Causas Raíz y Modelo de Datos:** Análisis del colapso en línea de despacho y definición de la ecuación de rescate (`docs/01-diagnostico-inicial.md`).
 
 ### Fase 2: Contingencia Operativa en Horas (Fase A - Low-Code)
-- [⚪ PENDIENTE] **2.1 Dataset Simulado de Incidencia:** Archivos CSV con errores reales de operación (SKUs mal tipeados, textos en campos numéricos y órdenes en fila).
-- [⚪ PENDIENTE] **2.2 Motor de Sanitización y Consolidación (`consolidate.ts`):** Script sin dependencias externas que normaliza SKUs, unifica saldos y genera `URGENTE_orden_reabastecimiento.csv`.
-- [⚪ PENDIENTE] **2.3 Protocolo Operativo Día 1 y Plantilla Maestra:** Manual para operarios no técnicos (`MANUAL_OPERATIVO_DIA_1.md`) y libro Excel con validaciones anti-error (`plantilla_maestra_contingencia.xlsx`).
+- [🟢 COMPLETADO] **2.1 Dataset Simulado de Incidencia:** Archivos CSV con errores reales de operación (SKUs mal tipeados, textos en campos numéricos y órdenes en fila).
+- [🟢 COMPLETADO] **2.2 Motor de Sanitización y Consolidación (`consolidate.ts`):** Script sin dependencias externas que normaliza SKUs, unifica saldos y genera `URGENTE_orden_reabastecimiento.csv`.
+- [🟢 COMPLETADO] **2.3 Protocolo Operativo Día 1 y Plantilla Maestra:** Manual para operarios no técnicos (`MANUAL_OPERATIVO_DIA_1.md`) y libro Excel con validaciones anti-error (`plantilla_maestra_contingencia.xlsx`).
 
 ### Fase 3: MVP Web Centralizado - Backend (Fase B)
 - [⚪ PENDIENTE] **3.1 Base de Datos y ORM:** Configuración de NestJS + Prisma con modelos `Product` e `InventoryMovement`.
