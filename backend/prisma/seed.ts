@@ -1,5 +1,12 @@
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+
+// Asegurar carga de DATABASE_URL desde .env si se invoca fuera de Prisma CLI
+const envPath = path.resolve(__dirname, '../.env');
+if (fs.existsSync(envPath) && typeof (process as any).loadEnvFile === 'function') {
+  (process as any).loadEnvFile(envPath);
+}
+
 import { MovementType, PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
