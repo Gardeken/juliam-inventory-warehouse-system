@@ -87,3 +87,4 @@ Si en cualquier momento necesitas volver a cruzar archivos CSV exportados para r
    - `triaje_fila_despacho.csv`: Qué clientes de la fila pasan por Carril Rápido.
    - `inventario_consolidado_limpio.csv`: Radiografía completa del almacén.
    - `auditoria_errores_datos.log`: Lista exacta de errores humanos detectados y bloqueados.
+
