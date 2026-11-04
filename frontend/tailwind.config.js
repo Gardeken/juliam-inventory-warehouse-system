@@ -4,58 +4,51 @@ export default {
   theme: {
     extend: {
       colors: {
-        teal: {
-          DEFAULT: '#2BA8A2',
-          light: '#3CC4BD',
-          dark: '#1E8C86',
-          bg: '#E8F6F5',
-        },
-        gold: {
-          DEFAULT: '#FFD23F',
-          light: '#FFE47A',
-          dark: '#E6B800',
-        },
-        coral: {
-          DEFAULT: '#EF6C4A',
-          light: '#FF8A6A',
-          dark: '#D45233',
-        },
-        cream: {
-          DEFAULT: '#FFF8E7',
-          dark: '#F3E6C8',
-        },
-        sky: {
-          DEFAULT: '#5DADE2',
-        },
+        background: '#fcfaf7',
+        'on-background': '#423d38',
         surface: {
-          base: '#EFF8F7',
-          card: '#FFFFFF',
+          DEFAULT: '#f3f4f6',
+          soft: '#edebe9',
+          elevated: '#ffffff',
+        },
+        'on-surface': '#423d38',
+        'on-surface-muted': '#797067',
+        outline: {
+          DEFAULT: '#e3e0dd',
+          strong: '#d1d5dc',
+        },
+        primary: {
+          DEFAULT: '#fe6e00',
+          strong: '#ff6b00',
+          warm: '#ffb74d',
+          focus: '#f97015',
+        },
+        shell: {
+          base: '#000000',
+          border: 'rgba(255, 255, 255, 0.12)',
         },
         status: {
-          success: '#27AE60',
-          error: '#E74C3C',
+          success: '#00c758',
+          warning: '#edb200',
+          danger: '#fb2c36',
+          info: '#3080ff',
         },
+      },
+      borderRadius: {
+        xs: '4px',
+        sm: '6px',
+        md: '8px',
+        lg: '12px',
+        pill: '9999px',
       },
       boxShadow: {
-        card: '0 4px 20px rgba(43, 168, 162, 0.12)',
-        'coral-glow': '0 4px 20px rgba(239, 108, 74, 0.35)',
-        'teal-glow': '0 4px 20px rgba(43, 168, 162, 0.30)',
-        'accent-glow': '0 4px 20px rgba(255, 210, 63, 0.45)',
-        'sky-glow': '0 4px 16px rgba(93, 173, 226, 0.30)',
-        focus: '0 0 0 4px rgba(43, 168, 162, 0.20)',
+        subtle: '0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.06)',
+        raised: '0 4px 12px rgba(0, 0, 0, 0.12)',
+        dialog: '0 20px 25px rgba(0, 0, 0, 0.10), 0 8px 10px rgba(0, 0, 0, 0.04)',
       },
-      keyframes: {
-        'boom-pulse': {
-          '0%, 100%': {
-            boxShadow: '0 4px 20px rgba(239, 108, 74, 0.25)',
-          },
-          '50%': {
-            boxShadow: '0 4px 26px rgba(239, 108, 74, 0.55)',
-          },
-        },
-      },
-      animation: {
-        'boom-pulse': 'boom-pulse 2s infinite ease-in-out',
+      fontFamily: {
+        sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
       },
     },
   },

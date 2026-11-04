@@ -1,17 +1,15 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
-  AlertOctagon,
+  AlertCircle,
   ArrowDownLeft,
   ArrowUpRight,
-  CheckCircle2,
-  ClipboardList,
+  Check,
+  Clock,
   ShieldAlert,
   X,
 } from 'lucide-react';
 import { CreateMovementPayload, ProductItem } from '../types/warehouse';
-import { AccentCard } from './ui/AccentCard';
-import { CounterButton } from './ui/CounterButton';
-import { PillButton } from './ui/PillButton';
+import { Button } from './ui/Button';
 
 interface QuickMovementModalProps {
   isOpen: boolean;
@@ -23,44 +21,35 @@ interface QuickMovementModalProps {
 
 type ActionMovementType = 'OUT' | 'IN' | 'SHRINKAGE' | 'COMMIT_ORDER';
 
-const MOVEMENT_OPTIONS: {
+const MOVEMENT_TYPES: {
   type: ActionMovementType;
   title: string;
   subtitle: string;
-  activeClasses: string;
   icon: typeof ArrowUpRight;
 }[] = [
   {
     type: 'OUT',
-    title: '1. Salida Despacho',
-    subtitle: 'Despachar cajas a cliente',
-    activeClasses:
-      'border-coral-dark bg-coral text-white shadow-coral-glow scale-[1.02]',
+    title: 'Salida Despacho',
+    subtitle: 'Entrega física a distribuidor',
     icon: ArrowUpRight,
   },
   {
     type: 'IN',
-    title: '2. Entrada Proveedor',
-    subtitle: 'Ingreso de mercancía',
-    activeClasses:
-      'border-teal-dark bg-teal text-white shadow-teal-glow scale-[1.02]',
+    title: 'Entrada Proveedor',
+    subtitle: 'Recepción de cajas de fábrica',
     icon: ArrowDownLeft,
   },
   {
     type: 'SHRINKAGE',
-    title: '3. Ajuste Merma',
-    subtitle: 'Rotura o daño en piso',
-    activeClasses:
-      'border-teal-dark bg-gold text-teal-dark shadow-accent-glow scale-[1.02]',
+    title: 'Ajuste Merma',
+    subtitle: 'Baja por rotura o daño en pasillo',
     icon: ShieldAlert,
   },
   {
     type: 'COMMIT_ORDER',
-    title: '4. Orden en Fila',
-    subtitle: 'Reservar stock vendido',
-    activeClasses:
-      'border-teal-dark bg-sky text-white shadow-sky-glow scale-[1.02]',
-    icon: ClipboardList,
+    title: 'Reserva en Fila',
+    subtitle: 'Comprometer stock para camión en puerta',
+    icon: Clock,
   },
 ];
 
@@ -111,7 +100,7 @@ export function QuickMovementModal({
     setQuantity((prev) => Math.max(1, prev + delta));
   };
 
-  const handleMovementTypeChange = (nextType: ActionMovementType) => {
+  const handleTypeSelect = (nextType: ActionMovementType) => {
     setMovementType(nextType);
     if (nextType === 'IN') {
       setReferenceDoc('FAC-PROV-901');
@@ -144,7 +133,7 @@ export function QuickMovementModal({
       setSubmitError(
         err instanceof Error
           ? err.message
-          : 'Error al registrar movimiento transaccional',
+          : 'Error al registrar transacción en el Kardex',
       );
     } finally {
       setSubmitting(false);
@@ -152,55 +141,55 @@ export function QuickMovementModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-teal-dark/60 p-4 backdrop-blur-xs">
-      <div className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-[32px] border-4 border-teal-dark bg-surface-card p-6 shadow-teal-glow">
-        <div className="flex items-start justify-between gap-4 border-b-[3px] border-dashed border-teal/35 pb-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs">
+      <div className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-lg border border-outline bg-surface-elevated p-6 shadow-dialog">
+        <div className="flex items-start justify-between gap-4 border-b border-outline pb-4">
           <div>
-            <span className="retro-ribbon mb-2">
-              ⚡ Operación Poka-Yoke en 3 Clics
-            </span>
-            <h2 className="text-xl font-extrabold uppercase tracking-wider text-teal-dark">
-              Registro Transaccional de Kardex (ACID)
-            </h2>
-            <p className="text-xs font-medium text-teal-dark/75">
-              Cero edición libre: valida stock físico en vivo y audita cada caja.
+            <div className="flex items-center gap-2">
+              <span className="inline-block h-2 w-2 rounded-full bg-primary" />
+              <h2 className="text-lg font-bold text-on-surface">
+                Registrar Movimiento de Kardex (Poka-Yoke)
+              </h2>
+            </div>
+            <p className="mt-1 text-xs text-on-surface-muted">
+              Transacción ACID con validación en caliente de stock físico e invariantes de almacén.
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center rounded-full border-2 border-teal-dark bg-cream text-teal-dark transition hover:bg-coral hover:text-white"
+            className="flex h-8 w-8 items-center justify-center rounded-sm text-on-surface-muted hover:bg-surface hover:text-on-surface"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <form onSubmit={(e) => void handleSubmit(e)} className="mt-5 space-y-5">
-          {/* CLIC 1: Tipo de Movimiento */}
+          {/* Paso 1: Tipo de Evento */}
           <div>
-            <label className="mb-2 block text-xs font-extrabold uppercase tracking-wider text-teal-dark">
-              Clic 1 — Selecciona el Tipo de Evento
+            <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
+              1. Tipo de Movimiento
             </label>
             <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
-              {MOVEMENT_OPTIONS.map((opt) => {
+              {MOVEMENT_TYPES.map((opt) => {
                 const Icon = opt.icon;
                 const active = movementType === opt.type;
                 return (
                   <button
                     key={opt.type}
                     type="button"
-                    onClick={() => handleMovementTypeChange(opt.type)}
-                    className={`flex flex-col items-start rounded-2xl border-2 p-3 text-left transition-all duration-150 ${
+                    onClick={() => handleTypeSelect(opt.type)}
+                    className={`flex flex-col items-start rounded-md border p-3 text-left transition-all ${
                       active
-                        ? opt.activeClasses
-                        : 'border-teal/30 bg-cream text-teal-dark hover:border-teal'
+                        ? 'border-primary bg-orange-50/40 text-primary-strong ring-1 ring-primary'
+                        : 'border-outline bg-surface-elevated text-on-surface hover:border-outline-strong hover:bg-surface/50'
                     }`}
                   >
-                    <Icon className="mb-1.5 h-5 w-5" />
-                    <span className="text-xs font-extrabold uppercase">
+                    <Icon className={`mb-2 h-4 w-4 ${active ? 'text-primary' : 'text-on-surface-muted'}`} />
+                    <span className="text-xs font-bold leading-tight">
                       {opt.title}
                     </span>
-                    <span className="text-[11px] opacity-85">
+                    <span className="mt-0.5 text-[11px] text-on-surface-muted leading-tight">
                       {opt.subtitle}
                     </span>
                   </button>
@@ -209,16 +198,16 @@ export function QuickMovementModal({
             </div>
           </div>
 
-          {/* CLIC 2: Producto Oficial y Cantidad con CounterButtons */}
+          {/* Paso 2: Selección de Producto & Cantidad */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="mb-1.5 block text-xs font-extrabold uppercase tracking-wider text-teal-dark">
-                Clic 2 — Producto del Catálogo Oficial
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
+                2. Insumo del Catálogo Maestro
               </label>
               <select
                 value={skuCode}
                 onChange={(e) => setSkuCode(e.target.value)}
-                className="cream-input w-full"
+                className="h-10 w-full rounded-sm border border-outline bg-surface-elevated px-3 text-sm font-medium text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
               >
                 {products.map((p) => (
                   <option key={p.id} value={p.skuCode}>
@@ -228,70 +217,58 @@ export function QuickMovementModal({
               </select>
 
               {selectedProduct && (
-                <AccentCard
-                  tone={
-                    selectedProduct.availableStock < 0
-                      ? 'coral'
-                      : selectedProduct.needsReplenishment
-                        ? 'gold'
-                        : 'teal'
-                  }
-                  className="mt-3 !p-3.5"
-                >
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-teal-dark">
-                      Stock Físico en Estante:
-                    </span>
-                    <span className="text-base font-extrabold text-teal-dark">
-                      {selectedProduct.physicalStock}{' '}
-                      <small className="font-normal">
-                        ({selectedProduct.packagingUnit})
-                      </small>
-                    </span>
+                <div className="mt-3 rounded-md border border-outline bg-surface/50 p-3 text-xs space-y-1.5">
+                  <div className="flex justify-between">
+                    <span className="text-on-surface-muted">Stock Físico en Piso:</span>
+                    <strong className="font-mono text-on-surface">
+                      {selectedProduct.physicalStock} {selectedProduct.packagingUnit}
+                    </strong>
                   </div>
-                  <div className="mt-1 flex items-center justify-between text-xs">
-                    <span className="font-semibold text-teal-dark/80">
-                      Comprometido en Fila:
-                    </span>
-                    <span className="font-extrabold text-coral-dark">
+                  <div className="flex justify-between">
+                    <span className="text-on-surface-muted">Comprometido en Fila:</span>
+                    <strong className="font-mono text-on-surface-muted">
                       {selectedProduct.committedStock}
-                    </span>
+                    </strong>
                   </div>
-                  <div className="mt-1 flex items-center justify-between border-t border-dashed border-teal/30 pt-1 text-xs">
-                    <span className="font-bold text-teal-dark">
-                      Disponible Real (ATP):
-                    </span>
-                    <span
-                      className={`font-extrabold ${
+                  <div className="flex justify-between border-t border-outline/70 pt-1.5">
+                    <span className="font-semibold text-on-surface">Disponible Real (ATP):</span>
+                    <strong
+                      className={`font-mono text-sm ${
                         selectedProduct.availableStock < 0
-                          ? 'text-coral-dark'
-                          : 'text-teal-dark'
+                          ? 'text-status-danger'
+                          : selectedProduct.availableStock <= selectedProduct.minStock
+                            ? 'text-amber-700'
+                            : 'text-status-success'
                       }`}
                     >
                       {selectedProduct.availableStock}
-                    </span>
+                    </strong>
                   </div>
-                </AccentCard>
+                </div>
               )}
             </div>
 
             <div>
-              <label className="mb-1.5 block text-xs font-extrabold uppercase tracking-wider text-teal-dark">
+              <label className="mb-1.5 block text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
                 Cantidad ({selectedProduct?.packagingUnit ?? 'Unidades'})
               </label>
-              <div className="flex items-center gap-2">
-                <CounterButton
-                  direction="minus"
-                  label="-5"
+              <div className="flex items-center gap-1.5">
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => adjustQty(-5)}
                   disabled={quantity <= 5}
-                />
-                <CounterButton
-                  direction="minus"
-                  label="-1"
+                >
+                  -5
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => adjustQty(-1)}
                   disabled={quantity <= 1}
-                />
+                >
+                  -1
+                </Button>
                 <input
                   type="number"
                   min={1}
@@ -301,60 +278,65 @@ export function QuickMovementModal({
                     const val = Number.parseInt(e.target.value, 10);
                     setQuantity(Number.isFinite(val) && val > 0 ? val : 1);
                   }}
-                  className="cream-input w-20 text-center text-lg font-extrabold"
+                  className="h-10 w-24 text-center rounded-sm border border-outline bg-surface-elevated font-mono text-base font-bold text-on-surface focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                 />
-                <CounterButton
-                  direction="plus"
-                  label="+1"
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => adjustQty(1)}
-                />
-                <CounterButton
-                  direction="plus"
-                  label="+5"
+                >
+                  +1
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => adjustQty(5)}
-                />
-                <CounterButton
-                  direction="plus"
-                  label="+10"
+                >
+                  +5
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
                   onClick={() => adjustQty(10)}
-                />
+                >
+                  +10
+                </Button>
               </div>
 
               {movementType === 'OUT' &&
                 selectedProduct &&
                 selectedProduct.committedStock > 0 && (
-                  <label className="mt-3 flex cursor-pointer items-center gap-2.5 rounded-2xl border-2 border-teal/30 bg-cream p-3 text-xs font-bold text-teal-dark">
+                  <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-md border border-outline bg-surface/50 p-2.5 text-xs text-on-surface">
                     <input
                       type="checkbox"
                       checked={fulfillsCommittedOrder}
                       onChange={(e) =>
                         setFulfillsCommittedOrder(e.target.checked)
                       }
-                      className="h-4 w-4 accent-teal-dark"
+                      className="h-4 w-4 rounded-xs border-outline text-primary focus:ring-primary"
                     />
                     <span>
-                      Despacha orden comprometida en la fila (descuenta también de
-                      Stock Comprometido)
+                      Despacha orden de la fila (descuenta también de <strong>Stock Comprometido</strong>)
                     </span>
                   </label>
                 )}
 
               {exceedsPhysicalStock && selectedProduct && (
-                <div className="mt-3 flex items-start gap-2 rounded-2xl border-2 border-coral-dark bg-coral/15 p-3 text-xs font-bold text-coral-dark shadow-coral-glow">
-                  <AlertOctagon className="h-5 w-5 shrink-0" />
+                <div className="mt-3 flex items-start gap-2 rounded-md border border-status-danger/30 bg-red-50 p-2.5 text-xs font-medium text-status-danger">
+                  <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
                   <span>
-                    Bloqueo Poka-Yoke: Intentas retirar {quantity}, pero solo
-                    existen {selectedProduct.physicalStock} en estantería.
+                    Bloqueo Poka-Yoke: Intentas retirar {quantity}, pero solo hay{' '}
+                    <strong>{selectedProduct.physicalStock}</strong> disponibles en piso.
                   </span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Trazabilidad de Documento y Operario */}
+          {/* Documento y Responsable */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div>
-              <label className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-teal-dark">
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
                 Documento Referencia
               </label>
               <input
@@ -363,11 +345,11 @@ export function QuickMovementModal({
                 value={referenceDoc}
                 onChange={(e) => setReferenceDoc(e.target.value)}
                 placeholder="Ej. OC-FILA-201"
-                className="cream-input w-full"
+                className="telemetry-input w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-teal-dark">
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
                 Operario Responsable
               </label>
               <input
@@ -376,45 +358,45 @@ export function QuickMovementModal({
                 value={operator}
                 onChange={(e) => setOperator(e.target.value)}
                 placeholder="Ej. Carlos_Turno1"
-                className="cream-input w-full"
+                className="telemetry-input w-full"
               />
             </div>
             <div>
-              <label className="mb-1 block text-xs font-extrabold uppercase tracking-wider text-teal-dark">
-                Nota Opcional
+              <label className="mb-1 block text-xs font-semibold uppercase tracking-wider text-on-surface-muted">
+                Nota de Auditoría
               </label>
               <input
                 type="text"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Carril rápido / proveedor..."
-                className="cream-input w-full"
+                placeholder="Carril rápido / observación..."
+                className="telemetry-input w-full"
               />
             </div>
           </div>
 
           {submitError && (
-            <div className="rounded-2xl border-2 border-coral-dark bg-coral/15 p-3 text-xs font-extrabold text-coral-dark">
+            <div className="rounded-md border border-status-danger/40 bg-red-50 p-3 text-xs font-medium text-status-danger">
               {submitError}
             </div>
           )}
 
-          {/* CLIC 3: Confirmación Transaccional */}
-          <div className="flex flex-wrap items-center justify-end gap-3 border-t-[3px] border-dashed border-teal/35 pt-4">
-            <PillButton variant="cream" onClick={onClose}>
+          {/* Paso 3: Confirmación */}
+          <div className="flex items-center justify-end gap-2.5 border-t border-outline pt-4">
+            <Button variant="secondary" onClick={onClose}>
               Cancelar
-            </PillButton>
-            <PillButton
+            </Button>
+            <Button
               type="submit"
-              variant="gold"
+              variant="primary"
               size="lg"
               disabled={submitting || exceedsPhysicalStock || !selectedProduct}
             >
-              <CheckCircle2 className="h-5 w-5" />
+              <Check className="h-4 w-4" />
               {submitting
-                ? 'Ejecutando Transacción ACID...'
-                : 'Clic 3 — Confirmar y Auditar en Kardex'}
-            </PillButton>
+                ? 'Procesando transacción ACID...'
+                : 'Confirmar y Sellar en Kardex'}
+            </Button>
           </div>
         </form>
       </div>

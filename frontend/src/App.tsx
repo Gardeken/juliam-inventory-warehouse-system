@@ -4,10 +4,10 @@ import {
   Download,
   Filter,
   History,
-  PlusCircle,
+  Plus,
   RefreshCw,
   Search,
-  Warehouse,
+  ShieldCheck,
 } from 'lucide-react';
 import {
   downloadReplenishmentCsv,
@@ -20,9 +20,7 @@ import { InventoryTable } from './components/InventoryTable';
 import { KardexAuditTable } from './components/KardexAuditTable';
 import { KpiCardsGrid } from './components/KpiCardsGrid';
 import { QuickMovementModal } from './components/QuickMovementModal';
-import { AccentCard } from './components/ui/AccentCard';
-import { PillButton } from './components/ui/PillButton';
-import { SectionHeader } from './components/ui/SectionHeader';
+import { Button } from './components/ui/Button';
 import {
   CreateMovementPayload,
   KardexMovementItem,
@@ -66,7 +64,7 @@ export function App() {
       const [productsData, kpisData, movementsData] = await Promise.all([
         fetchProducts(),
         fetchWarehouseKpis(),
-        fetchMovements({ limit: 80 }),
+        fetchMovements({ limit: 100 }),
       ]);
       setProducts(productsData);
       setKpis(kpisData);
@@ -105,7 +103,7 @@ export function App() {
     });
   }, [products, selectedCategory, onlyUrgentAlerts, searchQuery]);
 
-  const handleOpenModalForProduct = (product: ProductItem | null) => {
+  const handleOpenModal = (product: ProductItem | null) => {
     setPreselectedProduct(product);
     setModalOpen(true);
   };
@@ -113,86 +111,89 @@ export function App() {
   const handleMovementSubmit = async (payload: CreateMovementPayload) => {
     const res = await postInventoryMovement(payload);
     setToastMessage(
-      `Transacción ACID registrada: ${payload.type} (${payload.quantity}) en ${res.updatedProduct.skuCode}. Nuevo Stock Físico: ${res.updatedProduct.physicalStock} | ATP: ${res.updatedProduct.availableStock}`,
+      `Transacción sellada en Kardex: ${payload.type} (${payload.quantity} unid.) en ${res.updatedProduct.skuCode}. Saldo Físico: ${res.updatedProduct.physicalStock} | ATP: ${res.updatedProduct.availableStock}`,
     );
     await loadWarehouseData();
-    setTimeout(() => setToastMessage(null), 6000);
+    setTimeout(() => setToastMessage(null), 5000);
   };
 
   return (
-    <div className="min-h-screen bg-surface-base pb-12">
-      {/* Header con identidad Flip7 Teal-Gold-Cream */}
-      <header className="border-b-4 border-teal-dark bg-gradient-to-r from-teal-dark via-teal to-teal-dark text-white shadow-teal-glow">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-5 sm:px-6">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 -rotate-3 items-center justify-center rounded-2xl border-3 border-teal-dark bg-cream text-teal-dark shadow-accent-glow">
-              <Warehouse className="h-8 w-8" />
+    <div className="min-h-screen bg-background text-on-background">
+      {/* Shell Superior Frosted (Evreghen Command Center Shell) */}
+      <header className="frosted-shell sticky top-0 z-40 h-16 text-white shadow-subtle">
+        <div className="mx-auto flex h-full max-w-[1400px] items-center justify-between px-4 sm:px-6">
+          <div className="flex items-center gap-3">
+            <div className="flex h-9 w-9 items-center justify-center rounded-sm bg-primary text-white shadow-subtle">
+              <ShieldCheck className="h-5 w-5" />
             </div>
             <div>
-              <div className="mb-1 flex flex-wrap items-center gap-2">
-                <span className="retro-ribbon">
-                  🛡️ JULIAM CORP LLC • ALMACÉN CENTRAL
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold tracking-tight text-white">
+                  Juliam Corp LLC
+                </span>
+                <span className="rounded-xs bg-white/15 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white/80">
+                  Almacén Central
                 </span>
               </div>
-              <h1 className="text-xl font-extrabold uppercase tracking-wider text-cream sm:text-2xl">
-                Control de Inventario ATP & Kardex Transaccional
-              </h1>
+              <p className="text-[11px] text-white/60">
+                Command Center de Control de Inventario & ATP
+              </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-2.5">
-            <PillButton
-              variant="gold"
-              size="md"
-              onClick={() => handleOpenModalForProduct(null)}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => handleOpenModal(null)}
             >
-              <PlusCircle className="h-4 w-4" />
-              + Registrar Movimiento (3 Clics)
-            </PillButton>
+              <Plus className="h-4 w-4" />
+              <span>Registrar Movimiento</span>
+            </Button>
 
-            <PillButton
-              variant="cream"
+            <Button
+              variant="ghost-shell"
               size="sm"
               onClick={() => downloadReplenishmentCsv(products)}
               disabled={products.length === 0}
+              title="Descargar orden de compras urgentes en CSV"
             >
-              <Download className="h-4 w-4 text-teal-dark" />
-              Orden Compra CSV
-            </PillButton>
+              <Download className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">Exportar CSV</span>
+            </Button>
 
-            <PillButton
-              variant="teal"
+            <Button
+              variant="ghost-shell"
               size="sm"
               onClick={() => void loadWarehouseData()}
-              title="Sincronizar con PostgreSQL"
+              title="Sincronizar saldos en vivo"
             >
               <RefreshCw
-                className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
+                className={`h-3.5 w-3.5 ${loading ? 'animate-spin' : ''}`}
               />
-              Sincronizar
-            </PillButton>
+            </Button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-7xl space-y-6 px-4 pt-6 sm:px-6">
+      {/* Canvas del Workspace */}
+      <main className="mx-auto max-w-[1400px] space-y-6 px-4 py-6 sm:px-6">
+        {/* Banner de error si falla backend */}
         {error && (
-          <AccentCard tone="coral">
-            <p className="text-sm font-extrabold text-coral-dark">
-              ⚠️ Error de conexión con el Backend: {error}
-            </p>
-          </AccentCard>
+          <div className="rounded-md border border-status-danger/30 bg-red-50 p-4 text-xs font-semibold text-status-danger">
+            Error de conexión con el backend: {error}
+          </div>
         )}
 
+        {/* Notificación Toast de Operación Exitosa */}
         {toastMessage && (
-          <AccentCard tone="gold">
-            <p className="text-sm font-extrabold text-teal-dark">
-              ✅ {toastMessage}
-            </p>
-          </AccentCard>
+          <div className="flex items-center gap-2 rounded-md border border-primary/30 bg-orange-50 p-3.5 text-xs font-medium text-primary-strong shadow-subtle">
+            <span className="h-2 w-2 rounded-full bg-primary" />
+            <span>{toastMessage}</span>
+          </div>
         )}
 
-        {/* KPIs Ejecutivos */}
+        {/* Tarjetas KPI de Telemetría */}
         <KpiCardsGrid
           kpis={kpis}
           onFilterUrgent={() => {
@@ -201,88 +202,101 @@ export function App() {
           }}
         />
 
-        {/* Selector de Pestañas (Matriz ATP vs Bitácora Kardex) */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <PillButton
-              variant={activeTab === 'ATP_MATRIX' ? 'teal' : 'cream'}
+        {/* Barra de Navegación de Vistas */}
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-outline pb-3">
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
               onClick={() => setActiveTab('ATP_MATRIX')}
+              className={`inline-flex items-center gap-2 rounded-sm px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                activeTab === 'ATP_MATRIX'
+                  ? 'bg-primary text-white shadow-subtle'
+                  : 'text-on-surface-muted hover:bg-surface hover:text-on-surface'
+              }`}
             >
-              <Boxes className="h-4 w-4" />
-              1. Matriz de Visibilidad Operativa (ATP)
-            </PillButton>
+              <Boxes className="h-3.5 w-3.5" />
+              Matriz de Visibilidad ATP
+            </button>
 
-            <PillButton
-              variant={activeTab === 'KARDEX_AUDIT' ? 'teal' : 'cream'}
+            <button
+              type="button"
               onClick={() => setActiveTab('KARDEX_AUDIT')}
+              className={`inline-flex items-center gap-2 rounded-sm px-3.5 py-1.5 text-xs font-semibold transition-all ${
+                activeTab === 'KARDEX_AUDIT'
+                  ? 'bg-primary text-white shadow-subtle'
+                  : 'text-on-surface-muted hover:bg-surface hover:text-on-surface'
+              }`}
             >
-              <History className="h-4 w-4" />
-              2. Bitácora Kardex Inmutable ({movements.length})
-            </PillButton>
+              <History className="h-3.5 w-3.5" />
+              Bitácora Kardex ({movements.length})
+            </button>
           </div>
         </div>
 
+        {/* Vista Activa */}
         {activeTab === 'ATP_MATRIX' ? (
-          <AccentCard tone="teal" className="space-y-5">
-            <SectionHeader
-              icon={<Boxes className="h-5 w-5" />}
-              title="Matriz de Visibilidad Operativa (La Ecuación de Rescate)"
-              subtitle="Stock Disponible Real (ATP) = Stock Físico en Estante − Stock Comprometido en Fila de Despacho"
-              action={
-                <PillButton
-                  variant={onlyUrgentAlerts ? 'coral' : 'cream'}
-                  size="sm"
-                  onClick={() => setOnlyUrgentAlerts((prev) => !prev)}
-                >
-                  <Filter className="h-3.5 w-3.5" />
-                  {onlyUrgentAlerts
-                    ? 'Viendo Solo Compras Urgentes (ATP ≤ Mínimo)'
-                    : 'Filtrar Solo Compras Urgentes'}
-                </PillButton>
-              }
-            />
+          <div className="space-y-4">
+            {/* Filtros de Búsqueda y Categoría */}
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-outline bg-surface-elevated p-3 shadow-subtle">
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="relative w-64">
+                  <Search className="pointer-events-none absolute left-3 top-2.5 h-4 w-4 text-on-surface-muted/60" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Buscar SKU o nombre..."
+                    className="telemetry-input w-full pl-9"
+                  />
+                </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div className="relative w-full sm:w-72">
-                <Search className="pointer-events-none absolute left-3.5 top-3 h-4 w-4 text-teal-dark/60" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Buscar por SKU (SKU-002) o insumo..."
-                  className="cream-input w-full pl-10"
-                />
+                <div className="flex flex-wrap items-center gap-1">
+                  {CATEGORIES.map((cat) => (
+                    <button
+                      key={cat}
+                      type="button"
+                      onClick={() => setSelectedCategory(cat)}
+                      className={`rounded-xs px-2.5 py-1 text-xs font-medium transition-colors ${
+                        selectedCategory === cat
+                          ? 'bg-on-surface text-white'
+                          : 'bg-surface text-on-surface-muted hover:bg-surface-soft hover:text-on-surface'
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              <div className="flex flex-wrap items-center gap-1.5">
-                {CATEGORIES.map((category) => (
-                  <PillButton
-                    key={category}
-                    variant={
-                      selectedCategory === category ? 'gold' : 'cream'
-                    }
-                    size="sm"
-                    onClick={() => setSelectedCategory(category)}
-                  >
-                    {category}
-                  </PillButton>
-                ))}
-              </div>
+              <button
+                type="button"
+                onClick={() => setOnlyUrgentAlerts((prev) => !prev)}
+                className={`inline-flex items-center gap-1.5 rounded-sm border px-3 py-1.5 text-xs font-semibold transition-colors ${
+                  onlyUrgentAlerts
+                    ? 'border-status-danger/40 bg-red-50 text-status-danger'
+                    : 'border-outline bg-surface-elevated text-on-surface hover:border-outline-strong hover:bg-surface'
+                }`}
+              >
+                <Filter className="h-3.5 w-3.5" />
+                {onlyUrgentAlerts
+                  ? 'Mostrando Solo Urgentes (ATP ≤ Mínimo)'
+                  : 'Filtrar Solo Urgentes'}
+              </button>
             </div>
 
+            {/* Tabla de Matriz ATP */}
             <InventoryTable
               products={filteredProducts}
               loading={loading}
-              onSelectProductForMovement={(prod) =>
-                handleOpenModalForProduct(prod)
-              }
+              onSelectProductForMovement={(prod) => handleOpenModal(prod)}
             />
-          </AccentCard>
+          </div>
         ) : (
           <KardexAuditTable movements={movements} loading={loading} />
         )}
       </main>
 
+      {/* Modal Poka-Yoke de Movimientos */}
       <QuickMovementModal
         isOpen={modalOpen}
         products={products}

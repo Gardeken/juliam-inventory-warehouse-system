@@ -4,18 +4,26 @@
 
 @layer base {
   body {
-    background-color: #EFF8F7;
-    color: #133A38;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #fcfaf7;
+    color: #423d38;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
   }
 }
 
 @layer components {
-  .cream-input {
-    @apply rounded-2xl border-2 border-teal/30 bg-cream px-4 py-2.5 text-sm font-semibold text-teal-dark placeholder-teal-dark/50 transition duration-200 focus:border-teal focus:shadow-focus focus:outline-none;
+  .frosted-shell {
+    background-color: rgba(18, 18, 20, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   }
 
-  .retro-ribbon {
-    @apply relative inline-flex items-center gap-2 rounded-xl border-2 border-teal-dark bg-cream px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-teal-dark shadow-card;
+  .card-panel {
+    @apply rounded-lg border border-outline bg-surface-elevated p-5 shadow-subtle transition-all duration-200;
+  }
+
+  .telemetry-input {
+    @apply h-9 rounded-sm border border-outline bg-surface-elevated px-3 text-sm text-on-background placeholder:text-on-surface-muted/60 transition-all focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
   }
 }

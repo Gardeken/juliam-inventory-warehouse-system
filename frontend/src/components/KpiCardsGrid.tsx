@@ -1,11 +1,11 @@
 import {
-  AlertOctagon,
+  AlertCircle,
   AlertTriangle,
   Boxes,
   DollarSign,
 } from 'lucide-react';
 import { WarehouseKpiSummary } from '../types/warehouse';
-import { AccentCard } from './ui/AccentCard';
+import { MetricCard } from './ui/MetricCard';
 
 interface KpiCardsGridProps {
   kpis: WarehouseKpiSummary | null;
@@ -19,7 +19,7 @@ export function KpiCardsGrid({ kpis, onFilterUrgent }: KpiCardsGridProps) {
         {[1, 2, 3, 4].map((idx) => (
           <div
             key={idx}
-            className="h-32 animate-pulse rounded-3xl border border-teal/20 bg-surface-card p-5 shadow-card"
+            className="h-32 animate-pulse rounded-lg border border-outline bg-surface p-5"
           />
         ))}
       </div>
@@ -28,113 +28,45 @@ export function KpiCardsGrid({ kpis, onFilterUrgent }: KpiCardsGridProps) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <AccentCard
-        tone="coral"
-        pulse={kpis.criticalStockoutCount > 0}
+      <MetricCard
+        label="Quiebre en Fila (ATP < 0)"
+        value={kpis.criticalStockoutCount}
+        subValue="SKUs en riesgo"
+        indicator={kpis.criticalStockoutCount > 0 ? 'danger' : 'default'}
+        icon={<AlertCircle className="h-5 w-5 text-status-danger" />}
+        hint="Órdenes comprometidas sin cobertura física en piso"
         onClick={onFilterUrgent}
-      >
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-coral-dark">
-            Quiebre en Fila (ATP &lt; 0)
-          </span>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-coral text-white shadow-coral-glow">
-            <AlertOctagon className="h-5 w-5" />
-          </div>
-        </div>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-coral-dark">
-            {kpis.criticalStockoutCount}
-          </span>
-          <span className="text-xs font-bold text-coral-dark/80">
-            SKUs en estado BOOM
-          </span>
-        </div>
-        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
-          Requiere triaje en Ventanilla de Incidencias
-        </p>
-      </AccentCard>
+      />
 
-      <AccentCard tone="gold" onClick={onFilterUrgent}>
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-teal-dark">
-            Alerta Punto de Reorden
-          </span>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-teal-dark/50 bg-gold text-teal-dark shadow-accent-glow">
-            <AlertTriangle className="h-5 w-5" />
-          </div>
-        </div>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-teal-dark">
-            {kpis.urgentReorderCount}
-          </span>
-          <span className="text-xs font-bold text-teal-dark/80">
-            SKUs con ATP &le; Mínimo
-          </span>
-        </div>
-        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
-          {kpis.healthyCount} de {kpis.totalSkus} SKUs en estado saludable
-        </p>
-      </AccentCard>
+      <MetricCard
+        label="Punto de Reorden (ATP ≤ Mínimo)"
+        value={kpis.urgentReorderCount}
+        subValue={`de ${kpis.totalSkus} SKUs`}
+        indicator={kpis.urgentReorderCount > 0 ? 'warning' : 'default'}
+        icon={<AlertTriangle className="h-5 w-5 text-status-warning" />}
+        hint={`${kpis.healthyCount} insumos operando en nivel saludable`}
+        onClick={onFilterUrgent}
+      />
 
-      <AccentCard tone="teal">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-teal-dark">
-            Stock Físico vs. Fila
-          </span>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal text-white shadow-teal-glow">
-            <Boxes className="h-5 w-5" />
-          </div>
-        </div>
-        <div className="mt-2 flex items-baseline gap-2.5">
-          <div>
-            <span className="text-2xl font-extrabold text-teal-dark">
-              {kpis.totalPhysicalUnits}
-            </span>
-            <span className="ml-1 text-xs font-semibold text-teal-dark/70">
-              físico
-            </span>
-          </div>
-          <span className="font-bold text-teal/50">/</span>
-          <div>
-            <span className="text-2xl font-extrabold text-coral-dark">
-              {kpis.totalCommittedUnits}
-            </span>
-            <span className="ml-1 text-xs font-semibold text-teal-dark/70">
-              en fila
-            </span>
-          </div>
-        </div>
-        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
-          ATP Neto Global:{' '}
-          <strong className="font-extrabold text-teal-dark">
-            {kpis.totalAvailableUnits}
-          </strong>{' '}
-          cajas/bultos
-        </p>
-      </AccentCard>
+      <MetricCard
+        label="Stock Físico vs. Comprometido"
+        value={kpis.totalPhysicalUnits}
+        subValue={`/ ${kpis.totalCommittedUnits} en fila`}
+        indicator="default"
+        icon={<Boxes className="h-5 w-5" />}
+        hint={`Balance neto disponible (ATP): ${kpis.totalAvailableUnits} unidades`}
+      />
 
-      <AccentCard tone="sky">
-        <div className="flex items-center justify-between">
-          <span className="text-xs font-extrabold uppercase tracking-wider text-teal-dark">
-            Orden de Compra Sugerida
-          </span>
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky text-white shadow-sky-glow">
-            <DollarSign className="h-5 w-5" />
-          </div>
-        </div>
-        <div className="mt-2 flex items-baseline gap-1.5">
-          <span className="text-3xl font-extrabold text-teal-dark">
-            $
-            {kpis.estimatedReplenishmentBudgetUsd.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })}
-          </span>
-          <span className="text-xs font-bold text-teal-dark/70">USD</span>
-        </div>
-        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
-          Cubre quiebres + margen de seguridad (20%)
-        </p>
-      </AccentCard>
+      <MetricCard
+        label="Orden de Compra Sugerida"
+        value={`$${kpis.estimatedReplenishmentBudgetUsd.toLocaleString('en-US', {
+          minimumFractionDigits: 2,
+        })}`}
+        subValue="USD"
+        indicator="primary"
+        icon={<DollarSign className="h-5 w-5 text-primary" />}
+        hint="Cubre quiebres + 20% de stock de seguridad"
+      />
     </div>
   );
 }

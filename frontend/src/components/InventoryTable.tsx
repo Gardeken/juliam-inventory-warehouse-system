@@ -1,7 +1,7 @@
 import { ArrowLeftRight } from 'lucide-react';
 import { ProductItem } from '../types/warehouse';
-import { PillButton } from './ui/PillButton';
-import { StockStatusPill } from './ui/StatusPill';
+import { Button } from './ui/Button';
+import { StatusBadge } from './ui/StatusBadge';
 
 interface InventoryTableProps {
   products: ProductItem[];
@@ -16,118 +16,112 @@ export function InventoryTable({
 }: InventoryTableProps) {
   if (loading) {
     return (
-      <div className="rounded-3xl border-2 border-teal/20 bg-surface-card p-8 text-center text-sm font-bold text-teal-dark/70 shadow-card">
-        Cargando Matriz de Visibilidad Operativa (ATP)...
+      <div className="rounded-lg border border-outline bg-surface-elevated p-12 text-center text-sm font-medium text-on-surface-muted">
+        Cargando matriz de visibilidad operativa (ATP)...
       </div>
     );
   }
 
   if (products.length === 0) {
     return (
-      <div className="rounded-3xl border-2 border-teal/20 bg-surface-card p-8 text-center text-sm font-bold text-teal-dark/70 shadow-card">
-        No se encontraron productos con los filtros seleccionados.
+      <div className="rounded-lg border border-outline bg-surface-elevated p-12 text-center text-sm font-medium text-on-surface-muted">
+        No se encontraron insumos con los filtros seleccionados.
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-3xl border-2 border-teal/25 bg-surface-card shadow-card">
+    <div className="overflow-hidden rounded-lg border border-outline bg-surface-elevated shadow-subtle">
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="border-b-2 border-teal-dark bg-teal-dark text-xs font-extrabold uppercase tracking-wider text-cream">
+          <thead className="border-b border-outline bg-orange-500/[0.04] text-xs font-semibold uppercase tracking-wider text-primary-strong">
             <tr>
               <th className="px-4 py-3.5">SKU</th>
               <th className="px-4 py-3.5">Insumo Gastronómico</th>
-              <th className="px-4 py-3.5">Empaque</th>
-              <th className="px-4 py-3.5 text-right">Stock Físico</th>
-              <th className="px-4 py-3.5 text-right">Comprometido (Fila)</th>
-              <th className="px-4 py-3.5 text-right">Disponible Real (ATP)</th>
-              <th className="px-4 py-3.5 text-right">Stock Mínimo</th>
+              <th className="px-4 py-3.5">Unidad Empaque</th>
+              <th className="px-4 py-3.5 text-right">Físico</th>
+              <th className="px-4 py-3.5 text-right">Comprometido</th>
+              <th className="px-4 py-3.5 text-right">Disponible (ATP)</th>
+              <th className="px-4 py-3.5 text-right">Mínimo</th>
               <th className="px-4 py-3.5">Estado Operativo</th>
-              <th className="px-4 py-3.5 text-right">Sugerido Pedir</th>
+              <th className="px-4 py-3.5 text-right">Sugerido Compra</th>
               {onSelectProductForMovement && (
-                <th className="px-4 py-3.5 text-center">Acción Piso</th>
+                <th className="px-4 py-3.5 text-center">Acción</th>
               )}
             </tr>
           </thead>
-          <tbody className="divide-y divide-teal/15">
+          <tbody className="divide-y divide-outline/70">
             {products.map((item) => {
-              const rowAccent =
+              const rowHighlight =
                 item.status === 'CRITICO_QUIEBRE_FILA'
-                  ? 'border-l-[6px] border-l-coral bg-coral-light/10 hover:bg-coral-light/20'
+                  ? 'bg-red-500/[0.03] hover:bg-red-500/[0.06]'
                   : item.status === 'URGENTE_REORDEN'
-                    ? 'border-l-[6px] border-l-gold bg-cream/60 hover:bg-cream'
-                    : 'border-l-[6px] border-l-teal-light hover:bg-teal-bg/50';
+                    ? 'bg-amber-500/[0.02] hover:bg-amber-500/[0.05]'
+                    : 'hover:bg-surface/50';
 
               return (
-                <tr key={item.id} className={`transition ${rowAccent}`}>
-                  <td className="whitespace-nowrap px-4 py-3.5 font-mono text-xs font-extrabold text-teal-dark">
+                <tr key={item.id} className={`transition-colors ${rowHighlight}`}>
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold text-on-surface">
                     {item.skuCode}
                   </td>
-                  <td className="px-4 py-3.5">
-                    <div className="font-extrabold text-teal-dark">
+                  <td className="px-4 py-3">
+                    <div className="font-semibold text-on-surface">
                       {item.name}
                     </div>
-                    <div className="text-xs font-semibold text-teal-dark/70">
+                    <div className="text-xs text-on-surface-muted">
                       {item.category}
                     </div>
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-xs font-bold text-teal-dark/80">
+                  <td className="whitespace-nowrap px-4 py-3 text-xs text-on-surface-muted">
                     {item.packagingUnit}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-right text-base font-extrabold text-teal-dark">
+                  <td className="whitespace-nowrap px-4 py-3 text-right font-medium text-on-surface">
                     {item.physicalStock}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-right font-extrabold text-coral-dark">
+                  <td className="whitespace-nowrap px-4 py-3 text-right font-medium text-on-surface-muted">
                     {item.committedStock}
                   </td>
                   <td
-                    className={`whitespace-nowrap px-4 py-3.5 text-right text-lg font-extrabold ${
+                    className={`whitespace-nowrap px-4 py-3 text-right font-mono text-base font-bold ${
                       item.availableStock < 0
-                        ? 'text-coral-dark'
+                        ? 'text-status-danger'
                         : item.availableStock <= item.minStock
-                          ? 'text-gold-dark'
+                          ? 'text-amber-700'
                           : 'text-status-success'
                     }`}
                   >
                     {item.availableStock}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-right font-bold text-teal-dark/70">
+                  <td className="whitespace-nowrap px-4 py-3 text-right text-xs text-on-surface-muted">
                     {item.minStock}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5">
-                    <StockStatusPill status={item.status} />
+                  <td className="whitespace-nowrap px-4 py-3">
+                    <StatusBadge status={item.status} />
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3.5 text-right">
+                  <td className="whitespace-nowrap px-4 py-3 text-right">
                     {item.suggestedOrderQty > 0 ? (
                       <div>
-                        <span className="text-sm font-extrabold text-teal-dark">
+                        <span className="font-bold text-on-surface">
                           +{item.suggestedOrderQty}
                         </span>
-                        <div className="text-xs font-bold text-teal-dark/70">
-                          ${item.estimatedOrderCostUsd.toFixed(2)}
+                        <div className="text-[11px] text-on-surface-muted">
+                          ${item.estimatedOrderCostUsd.toFixed(2)} USD
                         </div>
                       </div>
                     ) : (
-                      <span className="text-xs font-semibold text-teal-dark/45">
-                        Cubierto
-                      </span>
+                      <span className="text-xs text-on-surface-muted/60">—</span>
                     )}
                   </td>
                   {onSelectProductForMovement && (
-                    <td className="whitespace-nowrap px-4 py-3.5 text-center">
-                      <PillButton
-                        variant={
-                          item.status === 'CRITICO_QUIEBRE_FILA'
-                            ? 'coral'
-                            : 'teal'
-                        }
+                    <td className="whitespace-nowrap px-4 py-3 text-center">
+                      <Button
+                        variant={item.status === 'CRITICO_QUIEBRE_FILA' ? 'danger' : 'secondary'}
                         size="sm"
                         onClick={() => onSelectProductForMovement(item)}
                       >
                         <ArrowLeftRight className="h-3.5 w-3.5" />
-                        Mover (3 Clics)
-                      </PillButton>
+                        Despachar
+                      </Button>
                     </td>
                   )}
                 </tr>
