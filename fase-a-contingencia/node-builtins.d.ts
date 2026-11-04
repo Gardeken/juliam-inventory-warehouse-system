@@ -1,6 +1,10 @@
 declare module 'node:fs' {
   export function readFileSync(path: string, encoding: BufferEncoding): string;
-  export function writeFileSync(path: string, data: string, encoding?: BufferEncoding): void;
+  export function writeFileSync(
+    path: string,
+    data: string | Uint8Array,
+    encoding?: BufferEncoding,
+  ): void;
   export function mkdirSync(
     path: string,
     options?: { recursive?: boolean },
@@ -18,4 +22,3 @@ declare module 'node:url' {
 }
 
 type BufferEncoding = 'utf-8' | 'utf8' | 'ascii' | 'base64' | 'hex';
-
