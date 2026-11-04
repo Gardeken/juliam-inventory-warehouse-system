@@ -1,0 +1,10 @@
+prioridad_alerta,sku_code,nombre_producto,categoria,unidad_empaque,stock_fisico_actual,stock_comprometido_fila,stock_disponible_real_atp,stock_minimo_alerta,cantidad_sugerida_pedir,costo_estimado_usd
+CRITICO_QUIEBRE_FILA,SKU-002,Vaso Termico Polipropileno 12oz Con Tapa,Vasos,Caja x1000,20,28,-8,25,38,1596.00
+URGENTE_REORDEN,SKU-004,Servilleta Dispensador Interfoliada Doble Hoja,Papel,Bulto x6000,16,14,2,25,28,546.00
+URGENTE_REORDEN,SKU-009,Rollo Papel Aluminio Industrial Pesado 18x500,Empaques,Caja x1,8,6,2,15,16,736.00
+URGENTE_REORDEN,SKU-007,Contenedor Domo Negro Rectangular 24oz Microondas,Contenedores,Caja x150,13,10,3,20,21,651.00
+URGENTE_REORDEN,SKU-006,Bolsa Kraft Delivery Asa Torcida Mediana,Empaques,Bulto x250,20,12,8,30,28,616.00
+URGENTE_REORDEN,SKU-011,Tenedor Plastico Reforzado Negro Individual,Cubiertos,Caja x1000,19,8,11,20,13,214.50
+URGENTE_REORDEN,SKU-001,Contenedor Plastico Bisagra 8x8 Transparente,Contenedores,Caja x200,31,18,13,30,23,655.50
+URGENTE_REORDEN,SKU-008,Vaso Cristal PET Transparente 16oz Bebidas Frias,Vasos,Caja x1000,36,10,26,30,10,385.00
+URGENTE_REORDEN,SKU-003,Cubiertos Biodegradables Pesados (Tenedor/Cuchillo/Servilleta),Cubiertos,Caja x500,42,15,27,35,15,510.00

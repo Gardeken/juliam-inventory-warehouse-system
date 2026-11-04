@@ -1,0 +1,11 @@
+fecha_registro,sku_ingresado,producto_nota,tipo_evento,cantidad_ingresada,documento_ref,operario
+2026-11-03 08:05,SKU001,Contenedor bisagra,SALIDA,8 cajas,OC-DIST-110,Miguel_Nuevo2
+2026-11-03 08:40,sku 002,Vasos termicos 12oz,SALIDA,0,OC-ANULADA,Miguel_Nuevo2
+2026-11-03 09:15,SKU-004,Servilleta interfoliada,SALIDA,12 bultos,OC-DIST-111,Miguel_Nuevo2
+2026-11-03 10:00,sku_008,Vaso PET 16oz,SALIDA,14 cajas,OC-DIST-112,Miguel_Nuevo2
+2026-11-03 11:30,001,Contenedor 8x8 bisagra,ENTRADA,6,FAC-PROV-892,Miguel_Nuevo2
+2026-11-03 12:15,SKU-011,Tenedor reforzado negro,SALIDA,9 cajas,OC-DIST-114,Miguel_Nuevo2
+2026-11-03 13:45,sku 006,Bolsa Kraft,SALIDA,5 BULTOS,OC-DIST-115,Miguel_Nuevo2
+2026-11-03 14:20,SKU-999,Producto no catalogado prueba,SALIDA,10 cajas,SIN-DOC,Miguel_Nuevo2
+2026-11-03 15:00,sku-007,Contenedor microondas 24oz,AJUSTE_MERMA,1 caja danada,ACTA-MERMA-02,Miguel_Nuevo2
+2026-11-03 16:10,SKU-003,Cubiertos biodegradables,SALIDA,-5,ERROR-NEGATIVO,Miguel_Nuevo2
