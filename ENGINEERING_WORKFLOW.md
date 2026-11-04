@@ -52,9 +52,9 @@
 - [🟢 COMPLETADO] **3.4 Seeder de Continuidad Operativa:** Carga automática de los insumos gastronómicos consolidados en la Fase A.
 
 ### Fase 4: MVP Web Centralizado - Frontend y Docker (Fase B)
-- [⚪ PENDIENTE] **4.1 Dashboard de Visibilidad de Almacén:** Interfaz en React + Tailwind con KPIs críticos y filtro de compras urgentes.
-- [⚪ PENDIENTE] **4.2 Modal Poka-Yoke de Despacho Rápido:** Registro de movimientos en 3 clics para operarios de piso.
-- [⚪ PENDIENTE] **4.3 Orquestación Docker Compose:** Empaquetado completo con `healthchecks` y auto-migración.
+- [🟢 COMPLETADO] **4.1 Dashboard de Visibilidad de Almacén:** Interfaz en React + Tailwind con KPIs críticos y filtro de compras urgentes.
+- [🟢 COMPLETADO] **4.2 Modal Poka-Yoke de Despacho Rápido:** Registro de movimientos en 3 clics para operarios de piso.
+- [🟢 COMPLETADO] **4.3 Orquestación Docker Compose:** Empaquetado completo con `healthchecks` y auto-migración.
 
 ### Fase 5: Arquitectura Estratégica (Fase 3)
 - [⚪ PENDIENTE] **5.1 Propuesta Industrial a Largo Plazo:** Diseño de integración híbrida ERP + WMS con lectores de código de barras y bus de eventos (`docs/03-arquitectura-largo-plazo.md`).
