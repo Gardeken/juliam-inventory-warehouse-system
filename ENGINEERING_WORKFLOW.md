@@ -57,4 +57,4 @@
 - [🟢 COMPLETADO] **4.3 Orquestación Docker Compose:** Empaquetado completo con `healthchecks` y auto-migración.
 
 ### Fase 5: Arquitectura Estratégica (Fase 3)
-- [⚪ PENDIENTE] **5.1 Propuesta Industrial a Largo Plazo:** Diseño de integración híbrida ERP + WMS con lectores de código de barras y bus de eventos (`docs/03-arquitectura-largo-plazo.md`).
+- [🟢 COMPLETADO] **5.1 Propuesta Industrial a Largo Plazo:** Diseño de integración híbrida ERP + WMS con lectores de código de barras y bus de eventos (`docs/03-arquitectura-largo-plazo.md`).
