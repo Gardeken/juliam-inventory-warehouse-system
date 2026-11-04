@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum MovementType {
+  INITIAL_CUT
+  IN
+  OUT
+  SHRINKAGE
+  COMMIT_ORDER
+  RELEASE_ORDER
+}
+
+model Product {
+  id             String              @id @default(uuid())
+  skuCode        String              @unique @map("sku_code")
+  name           String
+  category       String
+  packagingUnit  String              @map("packaging_unit")
+  physicalStock  Int                 @default(0) @map("physical_stock")
+  committedStock Int                 @default(0) @map("committed_stock")
+  minStock       Int                 @map("min_stock")
+  unitCostUsd    Float               @map("unit_cost_usd")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+  movements      InventoryMovement[]
+
+  @@index([category])
+  @@map("products")
+}
+
+model InventoryMovement {
+  id           String       @id @default(uuid())
+  productId    String       @map("product_id")
+  product      Product      @relation(fields: [productId], references: [id], onDelete: Restrict)
+  type         MovementType
+  quantity     Int
+  balanceAfter Int          @map("balance_after")
+  referenceDoc String       @map("reference_doc")
+  operator     String
+  notes        String?
+  createdAt    DateTime     @default(now()) @map("created_at")
+
+  @@index([productId, createdAt(sort: Desc)])
+  @@index([type])
+  @@map("inventory_movements")
+}
+
