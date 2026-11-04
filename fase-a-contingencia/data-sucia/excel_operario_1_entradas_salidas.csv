@@ -1,0 +1,11 @@
+fecha_registro,sku_ingresado,producto_nota,tipo_evento,cantidad_ingresada,documento_ref,operario
+2026-11-02 08:15,sku 001,Contenedor 8x8,SALIDA,12 cajas,OC-DIST-101,Carlos_Nuevo1
+2026-11-02 09:30,SKU-002 ,Vaso 12oz termico,SALIDA,10 cajas,OC-DIST-102,Carlos_Nuevo1
+2026-11-02 10:10,sku-004,Servilleta dispensador,ENTRADA,10 bultos,FAC-PROV-884,Carlos_Nuevo1
+2026-11-02 11:05,SKU_003,Kit cubiertos bio,SALIDA,18,OC-DIST-103,Carlos_Nuevo1
+2026-11-02 12:20,006,Bolsa Kraft mediana,SALIDA,15 bultos,OC-DIST-105,Carlos_Nuevo1
+2026-11-02 14:00,sku 007,Contenedor negro 24oz,SALIDA,8 cajas,OC-DIST-106,Carlos_Nuevo1
+2026-11-02 15:10,SKU-002,Vaso 12oz,ENTRADA,5 cajas,FAC-PROV-889,Carlos_Nuevo1
+2026-11-02 16:00,sku-009,Aluminio industrial,SALIDA,4 rollos,OC-DIST-108,Carlos_Nuevo1
+2026-11-02 16:45,SKU-001,Error de conteo sin numero,SALIDA,pendiente,SIN-REF,Carlos_Nuevo1
+2026-11-02 17:10,SKU-005,Envase vidrio 16oz,AJUSTE_MERMA,2 cajas rotas,ACTA-MERMA-01,Carlos_Nuevo1
