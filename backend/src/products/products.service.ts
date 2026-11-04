@@ -224,3 +224,4 @@ export class ProductsService {
     return this.enrichProduct(createdProduct);
   }
 }
+

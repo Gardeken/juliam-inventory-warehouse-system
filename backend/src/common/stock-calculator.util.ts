@@ -64,3 +64,4 @@ export function normalizeCanonicalSku(rawSku: string): string {
   }
   return cleaned.replace(/\s+/g, '-');
 }
+

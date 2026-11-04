@@ -15,3 +15,4 @@ export class QueryProductsDto {
   @IsBoolean()
   onlyAlerts?: boolean;
 }
+

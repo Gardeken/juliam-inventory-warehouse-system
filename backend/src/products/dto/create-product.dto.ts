@@ -52,3 +52,4 @@ export class CreateProductDto {
   @MaxLength(80)
   operator?: string;
 }
+
