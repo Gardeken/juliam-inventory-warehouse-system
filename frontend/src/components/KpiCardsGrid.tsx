@@ -5,6 +5,7 @@ import {
   DollarSign,
 } from 'lucide-react';
 import { WarehouseKpiSummary } from '../types/warehouse';
+import { AccentCard } from './ui/AccentCard';
 
 interface KpiCardsGridProps {
   kpis: WarehouseKpiSummary | null;
@@ -18,7 +19,7 @@ export function KpiCardsGrid({ kpis, onFilterUrgent }: KpiCardsGridProps) {
         {[1, 2, 3, 4].map((idx) => (
           <div
             key={idx}
-            className="h-28 animate-pulse rounded-xl border border-slate-200 bg-white p-5"
+            className="h-32 animate-pulse rounded-3xl border border-teal/20 bg-surface-card p-5 shadow-card"
           />
         ))}
       </div>
@@ -27,102 +28,113 @@ export function KpiCardsGrid({ kpis, onFilterUrgent }: KpiCardsGridProps) {
 
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <div
+      <AccentCard
+        tone="coral"
+        pulse={kpis.criticalStockoutCount > 0}
         onClick={onFilterUrgent}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === 'Enter' && onFilterUrgent()}
-        className="cursor-pointer rounded-xl border border-red-200 bg-red-50/70 p-5 shadow-sm transition hover:border-red-300 hover:bg-red-50"
       >
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-red-700">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-coral-dark">
             Quiebre en Fila (ATP &lt; 0)
           </span>
-          <AlertOctagon className="h-5 w-5 text-red-600" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-coral text-white shadow-coral-glow">
+            <AlertOctagon className="h-5 w-5" />
+          </div>
         </div>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-red-700">
+          <span className="text-3xl font-extrabold text-coral-dark">
             {kpis.criticalStockoutCount}
           </span>
-          <span className="text-xs font-medium text-red-600">
-            SKUs sin cobertura para la fila
+          <span className="text-xs font-bold text-coral-dark/80">
+            SKUs en estado BOOM
           </span>
         </div>
-        <p className="mt-1 text-xs text-red-700/80">
-          Requiere atención en Ventanilla de Incidencias
+        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
+          Requiere triaje en Ventanilla de Incidencias
         </p>
-      </div>
+      </AccentCard>
 
-      <div
-        onClick={onFilterUrgent}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === 'Enter' && onFilterUrgent()}
-        className="cursor-pointer rounded-xl border border-amber-200 bg-amber-50/70 p-5 shadow-sm transition hover:border-amber-300 hover:bg-amber-50"
-      >
+      <AccentCard tone="gold" onClick={onFilterUrgent}>
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-amber-800">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-teal-dark">
             Alerta Punto de Reorden
           </span>
-          <AlertTriangle className="h-5 w-5 text-amber-600" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-teal-dark/50 bg-gold text-teal-dark shadow-accent-glow">
+            <AlertTriangle className="h-5 w-5" />
+          </div>
         </div>
         <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-amber-800">
+          <span className="text-3xl font-extrabold text-teal-dark">
             {kpis.urgentReorderCount}
           </span>
-          <span className="text-xs font-medium text-amber-700">
+          <span className="text-xs font-bold text-teal-dark/80">
             SKUs con ATP &le; Mínimo
           </span>
         </div>
-        <p className="mt-1 text-xs text-amber-800/80">
-           {kpis.healthyCount} de {kpis.totalSkus} SKUs en estado saludable
+        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
+          {kpis.healthyCount} de {kpis.totalSkus} SKUs en estado saludable
         </p>
-      </div>
+      </AccentCard>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <AccentCard tone="teal">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
-            Stock Físico vs. Comprometido
+          <span className="text-xs font-extrabold uppercase tracking-wider text-teal-dark">
+            Stock Físico vs. Fila
           </span>
-          <Boxes className="h-5 w-5 text-indigo-600" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-teal text-white shadow-teal-glow">
+            <Boxes className="h-5 w-5" />
+          </div>
         </div>
-        <div className="mt-2 flex items-baseline gap-3">
+        <div className="mt-2 flex items-baseline gap-2.5">
           <div>
-            <span className="text-2xl font-extrabold text-slate-900">
+            <span className="text-2xl font-extrabold text-teal-dark">
               {kpis.totalPhysicalUnits}
             </span>
-            <span className="ml-1 text-xs text-slate-500">en piso</span>
+            <span className="ml-1 text-xs font-semibold text-teal-dark/70">
+              físico
+            </span>
           </div>
-          <span className="text-slate-300">/</span>
+          <span className="font-bold text-teal/50">/</span>
           <div>
-            <span className="text-2xl font-bold text-indigo-600">
+            <span className="text-2xl font-extrabold text-coral-dark">
               {kpis.totalCommittedUnits}
             </span>
-            <span className="ml-1 text-xs text-slate-500">en fila</span>
+            <span className="ml-1 text-xs font-semibold text-teal-dark/70">
+              en fila
+            </span>
           </div>
         </div>
-        <p className="mt-1 text-xs text-slate-500">
-          ATP Neto Global: <strong className="text-slate-700">{kpis.totalAvailableUnits}</strong> cajas/bultos
+        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
+          ATP Neto Global:{' '}
+          <strong className="font-extrabold text-teal-dark">
+            {kpis.totalAvailableUnits}
+          </strong>{' '}
+          cajas/bultos
         </p>
-      </div>
+      </AccentCard>
 
-      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+      <AccentCard tone="sky">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-600">
+          <span className="text-xs font-extrabold uppercase tracking-wider text-teal-dark">
             Orden de Compra Sugerida
           </span>
-          <DollarSign className="h-5 w-5 text-emerald-600" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky text-white shadow-sky-glow">
+            <DollarSign className="h-5 w-5" />
+          </div>
         </div>
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-3xl font-extrabold text-slate-900">
-            ${kpis.estimatedReplenishmentBudgetUsd.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+        <div className="mt-2 flex items-baseline gap-1.5">
+          <span className="text-3xl font-extrabold text-teal-dark">
+            $
+            {kpis.estimatedReplenishmentBudgetUsd.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })}
           </span>
-          <span className="text-xs font-medium text-slate-500">USD</span>
+          <span className="text-xs font-bold text-teal-dark/70">USD</span>
         </div>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1.5 text-xs font-medium text-teal-dark/80">
           Cubre quiebres + margen de seguridad (20%)
         </p>
-      </div>
+      </AccentCard>
     </div>
   );
 }

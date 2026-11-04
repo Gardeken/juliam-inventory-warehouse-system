@@ -115,3 +115,4 @@ export function downloadReplenishmentCsv(products: ProductItem[]): void {
   link.click();
   URL.revokeObjectURL(url);
 }
+

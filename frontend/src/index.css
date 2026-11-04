@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #EFF8F7;
+    color: #133A38;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+}
+
+@layer components {
+  .cream-input {
+    @apply rounded-2xl border-2 border-teal/30 bg-cream px-4 py-2.5 text-sm font-semibold text-teal-dark placeholder-teal-dark/50 transition duration-200 focus:border-teal focus:shadow-focus focus:outline-none;
+  }
+
+  .retro-ribbon {
+    @apply relative inline-flex items-center gap-2 rounded-xl border-2 border-teal-dark bg-cream px-4 py-1.5 text-xs font-extrabold uppercase tracking-widest text-teal-dark shadow-card;
+  }
+}

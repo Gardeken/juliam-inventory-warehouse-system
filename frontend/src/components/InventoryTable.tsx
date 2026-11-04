@@ -1,37 +1,12 @@
-import { ArrowLeftRight, CheckCircle2, Flame, AlertTriangle } from 'lucide-react';
-import { OperationalStockStatus, ProductItem } from '../types/warehouse';
+import { ArrowLeftRight } from 'lucide-react';
+import { ProductItem } from '../types/warehouse';
+import { PillButton } from './ui/PillButton';
+import { StockStatusPill } from './ui/StatusPill';
 
 interface InventoryTableProps {
   products: ProductItem[];
   loading: boolean;
   onSelectProductForMovement?: (product: ProductItem) => void;
-}
-
-function StatusBadge({ status }: { status: OperationalStockStatus }) {
-  if (status === 'CRITICO_QUIEBRE_FILA') {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-red-300 bg-red-100 px-2.5 py-1 text-xs font-bold text-red-800">
-        <Flame className="h-3.5 w-3.5" />
-        QUIEBRE EN FILA
-      </span>
-    );
-  }
-
-  if (status === 'URGENTE_REORDEN') {
-    return (
-      <span className="inline-flex items-center gap-1 rounded-full border border-amber-300 bg-amber-100 px-2.5 py-1 text-xs font-bold text-amber-800">
-        <AlertTriangle className="h-3.5 w-3.5" />
-        URGENTE REORDEN
-      </span>
-    );
-  }
-
-  return (
-    <span className="inline-flex items-center gap-1 rounded-full border border-emerald-300 bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800">
-      <CheckCircle2 className="h-3.5 w-3.5" />
-      SALUDABLE
-    </span>
-  );
 }
 
 export function InventoryTable({
@@ -41,7 +16,7 @@ export function InventoryTable({
 }: InventoryTableProps) {
   if (loading) {
     return (
-      <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+      <div className="rounded-3xl border-2 border-teal/20 bg-surface-card p-8 text-center text-sm font-bold text-teal-dark/70 shadow-card">
         Cargando Matriz de Visibilidad Operativa (ATP)...
       </div>
     );
@@ -49,17 +24,17 @@ export function InventoryTable({
 
   if (products.length === 0) {
     return (
-      <div className="rounded-xl border border-slate-200 bg-white p-8 text-center text-sm text-slate-500">
+      <div className="rounded-3xl border-2 border-teal/20 bg-surface-card p-8 text-center text-sm font-bold text-teal-dark/70 shadow-card">
         No se encontraron productos con los filtros seleccionados.
       </div>
     );
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-hidden rounded-3xl border-2 border-teal/25 bg-surface-card shadow-card">
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
-          <thead className="border-b border-slate-200 bg-slate-800 text-xs font-semibold uppercase tracking-wider text-slate-100">
+          <thead className="border-b-2 border-teal-dark bg-teal-dark text-xs font-extrabold uppercase tracking-wider text-cream">
             <tr>
               <th className="px-4 py-3.5">SKU</th>
               <th className="px-4 py-3.5">Insumo Gastronómico</th>
@@ -75,74 +50,84 @@ export function InventoryTable({
               )}
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-200">
+          <tbody className="divide-y divide-teal/15">
             {products.map((item) => {
-              const rowBg =
+              const rowAccent =
                 item.status === 'CRITICO_QUIEBRE_FILA'
-                  ? 'bg-red-50/40 hover:bg-red-50/80'
+                  ? 'border-l-[6px] border-l-coral bg-coral-light/10 hover:bg-coral-light/20'
                   : item.status === 'URGENTE_REORDEN'
-                    ? 'bg-amber-50/30 hover:bg-amber-50/60'
-                    : 'hover:bg-slate-50';
+                    ? 'border-l-[6px] border-l-gold bg-cream/60 hover:bg-cream'
+                    : 'border-l-[6px] border-l-teal-light hover:bg-teal-bg/50';
 
               return (
-                <tr key={item.id} className={`transition ${rowBg}`}>
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-bold text-slate-900">
+                <tr key={item.id} className={`transition ${rowAccent}`}>
+                  <td className="whitespace-nowrap px-4 py-3.5 font-mono text-xs font-extrabold text-teal-dark">
                     {item.skuCode}
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="font-semibold text-slate-900">{item.name}</div>
-                    <div className="text-xs text-slate-500">{item.category}</div>
+                  <td className="px-4 py-3.5">
+                    <div className="font-extrabold text-teal-dark">
+                      {item.name}
+                    </div>
+                    <div className="text-xs font-semibold text-teal-dark/70">
+                      {item.category}
+                    </div>
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-xs font-medium text-slate-600">
+                  <td className="whitespace-nowrap px-4 py-3.5 text-xs font-bold text-teal-dark/80">
                     {item.packagingUnit}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right font-semibold text-slate-900">
+                  <td className="whitespace-nowrap px-4 py-3.5 text-right text-base font-extrabold text-teal-dark">
                     {item.physicalStock}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right font-medium text-indigo-700">
+                  <td className="whitespace-nowrap px-4 py-3.5 text-right font-extrabold text-coral-dark">
                     {item.committedStock}
                   </td>
                   <td
-                    className={`whitespace-nowrap px-4 py-3 text-right text-base font-extrabold ${
+                    className={`whitespace-nowrap px-4 py-3.5 text-right text-lg font-extrabold ${
                       item.availableStock < 0
-                        ? 'text-red-700'
+                        ? 'text-coral-dark'
                         : item.availableStock <= item.minStock
-                          ? 'text-amber-700'
-                          : 'text-emerald-700'
+                          ? 'text-gold-dark'
+                          : 'text-status-success'
                     }`}
                   >
                     {item.availableStock}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right text-slate-500">
+                  <td className="whitespace-nowrap px-4 py-3.5 text-right font-bold text-teal-dark/70">
                     {item.minStock}
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3">
-                    <StatusBadge status={item.status} />
+                  <td className="whitespace-nowrap px-4 py-3.5">
+                    <StockStatusPill status={item.status} />
                   </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-right">
+                  <td className="whitespace-nowrap px-4 py-3.5 text-right">
                     {item.suggestedOrderQty > 0 ? (
                       <div>
-                        <span className="font-bold text-slate-900">
+                        <span className="text-sm font-extrabold text-teal-dark">
                           +{item.suggestedOrderQty}
                         </span>
-                        <div className="text-xs text-slate-500">
+                        <div className="text-xs font-bold text-teal-dark/70">
                           ${item.estimatedOrderCostUsd.toFixed(2)}
                         </div>
                       </div>
                     ) : (
-                      <span className="text-xs text-slate-400">Sin pedido</span>
+                      <span className="text-xs font-semibold text-teal-dark/45">
+                        Cubierto
+                      </span>
                     )}
                   </td>
                   {onSelectProductForMovement && (
-                    <td className="whitespace-nowrap px-4 py-3 text-center">
-                      <button
-                        type="button"
+                    <td className="whitespace-nowrap px-4 py-3.5 text-center">
+                      <PillButton
+                        variant={
+                          item.status === 'CRITICO_QUIEBRE_FILA'
+                            ? 'coral'
+                            : 'teal'
+                        }
+                        size="sm"
                         onClick={() => onSelectProductForMovement(item)}
-                        className="inline-flex items-center gap-1.5 rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-slate-700"
                       >
                         <ArrowLeftRight className="h-3.5 w-3.5" />
-                        Despachar / Mover
-                      </button>
+                        Mover (3 Clics)
+                      </PillButton>
                     </td>
                   )}
                 </tr>
