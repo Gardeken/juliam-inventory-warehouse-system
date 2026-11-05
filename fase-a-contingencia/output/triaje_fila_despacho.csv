@@ -1,0 +1,11 @@
+orden_id,distribuidor_cliente,sku_code,nombre_producto,cantidad_solicitada,stock_fisico_antes,stock_fisico_despues,carril_asignado,accion_operativa
+OC-FILA-201,Distribuidora Gastronomica El Chef C.A.,SKU-002,Vaso Termico Polipropileno 12oz Con Tapa,16,20,4,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-202,Suministros Horeca Express LLC,SKU-002,Vaso Termico Polipropileno 12oz Con Tapa,12,4,4,RETENIDO_QUIEBRE_STOCK,"Faltan 8 (Caja x1000). Ofrecer entrega parcial de 4 o reprogramar"
+OC-FILA-203,Grupo Restaurantero La Brasa,SKU-001,Contenedor Plastico Bisagra 8x8 Transparente,18,31,13,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-204,Empaques y Desechables Del Sur,SKU-004,Servilleta Dispensador Interfoliada Doble Hoja,14,16,2,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-205,Distribuidora Gastronomica El Chef C.A.,SKU-006,Bolsa Kraft Delivery Asa Torcida Mediana,12,20,8,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-206,Catering & Eventos Metropolitanos,SKU-007,Contenedor Domo Negro Rectangular 24oz Microondas,10,13,3,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-207,Suministros Horeca Express LLC,SKU-009,Rollo Papel Aluminio Industrial Pesado 18x500,6,8,2,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-208,Franquicias Burger & Grill Corp,SKU-003,Cubiertos Biodegradables Pesados (Tenedor/Cuchillo/Servilleta),15,42,27,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-209,Cafe & Bakery Distribuciones,SKU-008,Vaso Cristal PET Transparente 16oz Bebidas Frias,10,36,26,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"
+OC-FILA-210,Restaurantes Unidos del Este,SKU-011,Tenedor Plastico Reforzado Negro Individual,8,19,11,CARRIL_RAPIDO_DESPACHABLE,"Despachar inmediatamente por Carril Rápido"

@@ -1,0 +1,12 @@
+{
+  "name": "juliam-fase-a-contingencia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Motor de sanitizacion y consolidacion operativa sin dependencias externas (Fase A)",
+  "type": "module",
+  "scripts": {
+    "consolidate": "node consolidate.ts",
+    "generate-excel": "node generate-excel-template.ts"
+  }
+}
+

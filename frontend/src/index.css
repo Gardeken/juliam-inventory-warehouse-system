@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #fcfaf7;
+    color: #423d38;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .frosted-shell {
+    background-color: rgba(18, 18, 20, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .card-panel {
+    @apply rounded-lg border border-outline bg-surface-elevated p-5 shadow-subtle transition-all duration-200;
+  }
+
+  .telemetry-input {
+    @apply h-9 rounded-sm border border-outline bg-surface-elevated px-3 text-sm text-on-background placeholder:text-on-surface-muted/60 transition-all focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary;
+  }
+}

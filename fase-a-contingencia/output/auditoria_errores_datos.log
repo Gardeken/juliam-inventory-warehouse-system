@@ -1,0 +1,40 @@
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L2 | SKU normalizado de "sku 001" -> "SKU-001"
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L2 | SKU: SKU-001 | Cantidad extraída de "12 cajas" -> 12
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L3 | SKU: SKU-002 | Cantidad extraída de "10 cajas" -> 10
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L4 | SKU normalizado de "sku-004" -> "SKU-004"
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L4 | SKU: SKU-004 | Cantidad extraída de "10 bultos" -> 10
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L5 | SKU normalizado de "SKU_003" -> "SKU-003"
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L6 | SKU normalizado de "006" -> "SKU-006"
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L6 | SKU: SKU-006 | Cantidad extraída de "15 bultos" -> 15
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L7 | SKU normalizado de "sku 007" -> "SKU-007"
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L7 | SKU: SKU-007 | Cantidad extraída de "8 cajas" -> 8
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L8 | SKU: SKU-002 | Cantidad extraída de "5 cajas" -> 5
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L9 | SKU normalizado de "sku-009" -> "SKU-009"
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L9 | SKU: SKU-009 | Cantidad extraída de "4 rollos" -> 4
+[RECHAZADO] excel_operario_1_entradas_salidas.csv:L10 | SKU: SKU-001 | Operario: Carlos_Nuevo1 | Motivo: Cantidad inválida o no positiva ("pendiente")
+[SANITIZADO] excel_operario_1_entradas_salidas.csv:L11 | SKU: SKU-005 | Cantidad extraída de "2 cajas rotas" -> 2
+[SANITIZADO] excel_operario_2_movimientos.csv:L2 | SKU normalizado de "SKU001" -> "SKU-001"
+[SANITIZADO] excel_operario_2_movimientos.csv:L2 | SKU: SKU-001 | Cantidad extraída de "8 cajas" -> 8
+[SANITIZADO] excel_operario_2_movimientos.csv:L3 | SKU normalizado de "sku 002" -> "SKU-002"
+[RECHAZADO] excel_operario_2_movimientos.csv:L3 | SKU: SKU-002 | Operario: Miguel_Nuevo2 | Motivo: Cantidad inválida o no positiva ("0")
+[SANITIZADO] excel_operario_2_movimientos.csv:L4 | SKU: SKU-004 | Cantidad extraída de "12 bultos" -> 12
+[SANITIZADO] excel_operario_2_movimientos.csv:L5 | SKU normalizado de "sku_008" -> "SKU-008"
+[SANITIZADO] excel_operario_2_movimientos.csv:L5 | SKU: SKU-008 | Cantidad extraída de "14 cajas" -> 14
+[SANITIZADO] excel_operario_2_movimientos.csv:L6 | SKU normalizado de "001" -> "SKU-001"
+[SANITIZADO] excel_operario_2_movimientos.csv:L7 | SKU: SKU-011 | Cantidad extraída de "9 cajas" -> 9
+[SANITIZADO] excel_operario_2_movimientos.csv:L8 | SKU normalizado de "sku 006" -> "SKU-006"
+[SANITIZADO] excel_operario_2_movimientos.csv:L8 | SKU: SKU-006 | Cantidad extraída de "5 BULTOS" -> 5
+[RECHAZADO] excel_operario_2_movimientos.csv:L9 | Operario: Miguel_Nuevo2 | Motivo: SKU inexistente o malformado ("SKU-999")
+[SANITIZADO] excel_operario_2_movimientos.csv:L10 | SKU normalizado de "sku-007" -> "SKU-007"
+[SANITIZADO] excel_operario_2_movimientos.csv:L10 | SKU: SKU-007 | Cantidad extraída de "1 caja danada" -> 1
+[RECHAZADO] excel_operario_2_movimientos.csv:L11 | SKU: SKU-003 | Operario: Miguel_Nuevo2 | Motivo: Cantidad inválida o no positiva ("-5")
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L2 | Orden OC-FILA-201 normalizada (SKU-002, cant: 16)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L3 | Orden OC-FILA-202 normalizada (SKU-002, cant: 12)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L4 | Orden OC-FILA-203 normalizada (SKU-001, cant: 18)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L5 | Orden OC-FILA-204 normalizada (SKU-004, cant: 14)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L6 | Orden OC-FILA-205 normalizada (SKU-006, cant: 12)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L7 | Orden OC-FILA-206 normalizada (SKU-007, cant: 10)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L8 | Orden OC-FILA-207 normalizada (SKU-009, cant: 6)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L9 | Orden OC-FILA-208 normalizada (SKU-003, cant: 15)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L10 | Orden OC-FILA-209 normalizada (SKU-008, cant: 10)
+[SANITIZADO] ordenes_compra_pendientes_fila.csv:L11 | Orden OC-FILA-210 normalizada (SKU-011, cant: 8)

@@ -1,0 +1,13 @@
+sku_code,nombre_producto,categoria,unidad_empaque,corte_inicial,entradas,salidas,mermas,stock_fisico,stock_comprometido,stock_disponible_atp,stock_minimo,estado_operativo,sugerido_compra
+SKU-001,Contenedor Plastico Bisagra 8x8 Transparente,Contenedores,Caja x200,45,6,20,0,31,18,13,30,URGENTE_REORDEN,23
+SKU-002,Vaso Termico Polipropileno 12oz Con Tapa,Vasos,Caja x1000,25,5,10,0,20,28,-8,25,CRITICO_QUIEBRE_FILA,38
+SKU-003,Cubiertos Biodegradables Pesados (Tenedor/Cuchillo/Servilleta),Cubiertos,Caja x500,60,0,18,0,42,15,27,35,URGENTE_REORDEN,15
+SKU-004,Servilleta Dispensador Interfoliada Doble Hoja,Papel,Bulto x6000,18,10,12,0,16,14,2,25,URGENTE_REORDEN,28
+SKU-005,Envase Vidrio Templado Hermetico 16oz,Vidrio,Caja x48,30,0,0,2,28,0,28,15,SALUDABLE,0
+SKU-006,Bolsa Kraft Delivery Asa Torcida Mediana,Empaques,Bulto x250,40,0,20,0,20,12,8,30,URGENTE_REORDEN,28
+SKU-007,Contenedor Domo Negro Rectangular 24oz Microondas,Contenedores,Caja x150,22,0,8,1,13,10,3,20,URGENTE_REORDEN,21
+SKU-008,Vaso Cristal PET Transparente 16oz Bebidas Frias,Vasos,Caja x1000,50,0,14,0,36,10,26,30,URGENTE_REORDEN,10
+SKU-009,Rollo Papel Aluminio Industrial Pesado 18x500,Empaques,Caja x1,12,0,4,0,8,6,2,15,URGENTE_REORDEN,16
+SKU-010,Frasco Vidrio Salsa 8oz Tapa Twist-Off,Vidrio,Caja x72,35,0,0,0,35,0,35,20,SALUDABLE,0
+SKU-011,Tenedor Plastico Reforzado Negro Individual,Cubiertos,Caja x1000,28,0,9,0,19,8,11,20,URGENTE_REORDEN,13
+SKU-012,Servilleta Coctel Bebidas 2 Pliegos Blanca,Papel,Bulto x4000,42,0,0,0,42,0,42,25,SALUDABLE,0

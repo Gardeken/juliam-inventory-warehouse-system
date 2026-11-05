@@ -1,0 +1,11 @@
+orden_id,distribuidor_cliente,sku_code,cantidad_comprometida,prioridad_fila,hora_llegada_almacen
+OC-FILA-201,Distribuidora Gastronomica El Chef C.A.,sku-002,16 cajas,ALTA_TURNO_1,07:30
+OC-FILA-202,Suministros Horeca Express LLC,SKU 002,12,ALTA_TURNO_1,07:45
+OC-FILA-203,Grupo Restaurantero La Brasa,SKU-001,18 cajas,ALTA_TURNO_1,08:00
+OC-FILA-204,Empaques y Desechables Del Sur,sku_004,14 bultos,MEDIA_TURNO_2,08:15
+OC-FILA-205,Distribuidora Gastronomica El Chef C.A.,SKU-006,12 bultos,ALTA_TURNO_1,07:30
+OC-FILA-206,Catering & Eventos Metropolitanos,007,10 cajas,MEDIA_TURNO_2,08:30
+OC-FILA-207,Suministros Horeca Express LLC,SKU-009,6 rollos,ALTA_TURNO_1,07:45
+OC-FILA-208,Franquicias Burger & Grill Corp,sku 003,15 cajas,BAJA_TURNO_3,09:00
+OC-FILA-209,Cafe & Bakery Distribuciones,SKU-008,10 cajas,MEDIA_TURNO_2,08:40
+OC-FILA-210,Restaurantes Unidos del Este,SKU-011,8 cajas,BAJA_TURNO_3,09:15
