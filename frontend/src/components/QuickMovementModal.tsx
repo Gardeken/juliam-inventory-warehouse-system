@@ -67,7 +67,7 @@ export function QuickMovementModal({
   const [operator, setOperator] = useState<string>('Operario_Piso_Turno1');
   const [notes, setNotes] = useState<string>('');
   const [fulfillsCommittedOrder, setFulfillsCommittedOrder] =
-    useState<boolean>(true);
+    useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
@@ -78,6 +78,7 @@ export function QuickMovementModal({
     setSkuCode(defaultSku);
     setQuantity(1);
     setMovementType('OUT');
+    setFulfillsCommittedOrder(false);
     setReferenceDoc('OC-FILA-DESPACHO');
     setSubmitError(null);
   }, [isOpen, preselectedProduct, products]);
@@ -86,6 +87,44 @@ export function QuickMovementModal({
     () => products.find((p) => p.skuCode === skuCode) ?? null,
     [products, skuCode],
   );
+
+  const previewMetrics = useMemo(() => {
+    if (!selectedProduct) return null;
+
+    let nextPhysical = selectedProduct.physicalStock;
+    let nextCommitted = selectedProduct.committedStock;
+
+    if (movementType === 'IN') {
+      nextPhysical += quantity;
+    } else if (movementType === 'OUT') {
+      nextPhysical -= quantity;
+      if (fulfillsCommittedOrder && selectedProduct.committedStock > 0) {
+        nextCommitted = Math.max(0, selectedProduct.committedStock - quantity);
+      }
+    } else if (movementType === 'SHRINKAGE') {
+      nextPhysical -= quantity;
+    } else if (movementType === 'COMMIT_ORDER') {
+      nextCommitted += quantity;
+    }
+
+    const nextAvailable = nextPhysical - nextCommitted;
+    const safetyBuffer = Math.ceil(selectedProduct.minStock * 0.2);
+    const targetLevel = selectedProduct.minStock + safetyBuffer;
+    const nextSuggestedOrder =
+      nextAvailable <= selectedProduct.minStock
+        ? Math.max(0, targetLevel - nextAvailable)
+        : 0;
+
+    return {
+      nextPhysical,
+      nextCommitted,
+      nextAvailable,
+      nextSuggestedOrder,
+      physicalDelta: nextPhysical - selectedProduct.physicalStock,
+      committedDelta: nextCommitted - selectedProduct.committedStock,
+      availableDelta: nextAvailable - selectedProduct.availableStock,
+    };
+  }, [selectedProduct, movementType, quantity, fulfillsCommittedOrder]);
 
   if (!isOpen) return null;
 
@@ -216,32 +255,136 @@ export function QuickMovementModal({
                 ))}
               </select>
 
-              {selectedProduct && (
-                <div className="mt-3 rounded-md border border-outline bg-surface/50 p-3 text-xs space-y-1.5">
-                  <div className="flex justify-between">
+              {selectedProduct && previewMetrics && (
+                <div className="mt-3 rounded-md border border-primary/30 bg-orange-50/30 p-3 text-xs space-y-2">
+                  <div className="flex items-center justify-between border-b border-outline/70 pb-1.5">
+                    <span className="font-bold uppercase tracking-wider text-primary-strong">
+                      Vista Previa del Impacto (Antes → Después)
+                    </span>
+                    <span className="text-[11px] font-medium text-on-surface-muted">
+                      {selectedProduct.packagingUnit}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center justify-between">
                     <span className="text-on-surface-muted">Stock Físico en Piso:</span>
-                    <strong className="font-mono text-on-surface">
-                      {selectedProduct.physicalStock} {selectedProduct.packagingUnit}
-                    </strong>
+                    <div className="flex items-center gap-1.5 font-mono">
+                      <span className="text-on-surface-muted line-through">
+                        {selectedProduct.physicalStock}
+                      </span>
+                      <span className="text-on-surface-muted">→</span>
+                      <strong
+                        className={`text-sm ${
+                          previewMetrics.nextPhysical < 0
+                            ? 'text-status-danger'
+                            : 'text-on-surface'
+                        }`}
+                      >
+                        {previewMetrics.nextPhysical}
+                      </strong>
+                      {previewMetrics.physicalDelta !== 0 && (
+                        <span
+                          className={`rounded-xs px-1.5 py-0.5 text-[11px] font-bold ${
+                            previewMetrics.physicalDelta > 0
+                              ? 'bg-emerald-100 text-emerald-800'
+                              : 'bg-orange-100 text-primary-strong'
+                          }`}
+                        >
+                          {previewMetrics.physicalDelta > 0
+                            ? `+${previewMetrics.physicalDelta}`
+                            : previewMetrics.physicalDelta}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex justify-between">
+
+                  <div className="flex items-center justify-between">
                     <span className="text-on-surface-muted">Comprometido en Fila:</span>
-                    <strong className="font-mono text-on-surface-muted">
-                      {selectedProduct.committedStock}
-                    </strong>
+                    <div className="flex items-center gap-1.5 font-mono">
+                      <span
+                        className={
+                          previewMetrics.committedDelta !== 0
+                            ? 'text-on-surface-muted line-through'
+                            : 'text-on-surface-muted'
+                        }
+                      >
+                        {selectedProduct.committedStock}
+                      </span>
+                      {previewMetrics.committedDelta !== 0 && (
+                        <>
+                          <span className="text-on-surface-muted">→</span>
+                          <strong className="text-sm text-on-surface">
+                            {previewMetrics.nextCommitted}
+                          </strong>
+                          <span className="rounded-xs bg-blue-100 px-1.5 py-0.5 text-[11px] font-bold text-status-info">
+                            {previewMetrics.committedDelta > 0
+                              ? `+${previewMetrics.committedDelta}`
+                              : previewMetrics.committedDelta}
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex justify-between border-t border-outline/70 pt-1.5">
-                    <span className="font-semibold text-on-surface">Disponible Real (ATP):</span>
-                    <strong
-                      className={`font-mono text-sm ${
-                        selectedProduct.availableStock < 0
-                          ? 'text-status-danger'
-                          : selectedProduct.availableStock <= selectedProduct.minStock
-                            ? 'text-amber-700'
-                            : 'text-status-success'
-                      }`}
-                    >
-                      {selectedProduct.availableStock}
+
+                  <div className="flex items-center justify-between border-t border-outline/70 pt-1.5">
+                    <span className="font-semibold text-on-surface">
+                      Disponible Real (ATP):
+                    </span>
+                    <div className="flex items-center gap-1.5 font-mono">
+                      <span
+                        className={
+                          previewMetrics.availableDelta !== 0
+                            ? 'text-on-surface-muted line-through'
+                            : 'text-on-surface-muted'
+                        }
+                      >
+                        {selectedProduct.availableStock}
+                      </span>
+                      <span className="text-on-surface-muted">→</span>
+                      <strong
+                        className={`text-sm ${
+                          previewMetrics.nextAvailable < 0
+                            ? 'text-status-danger'
+                            : previewMetrics.nextAvailable <=
+                                selectedProduct.minStock
+                              ? 'text-amber-700'
+                              : 'text-status-success'
+                        }`}
+                      >
+                        {previewMetrics.nextAvailable}
+                      </strong>
+                      <span
+                        className={`rounded-xs px-1.5 py-0.5 text-[11px] font-bold ${
+                          previewMetrics.availableDelta > 0
+                            ? 'bg-emerald-100 text-emerald-800'
+                            : previewMetrics.availableDelta < 0
+                              ? 'bg-red-100 text-status-danger'
+                              : 'bg-surface text-on-surface-muted'
+                        }`}
+                      >
+                        {previewMetrics.availableDelta > 0
+                          ? `+${previewMetrics.availableDelta}`
+                          : previewMetrics.availableDelta === 0
+                            ? 'Sin cambio ATP'
+                            : previewMetrics.availableDelta}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between border-t border-outline/50 pt-1.5 text-[11px]">
+                    <span className="text-on-surface-muted">
+                      Sugerido Compra Post-Movimiento:
+                    </span>
+                    <strong className="font-mono text-on-surface">
+                      {selectedProduct.suggestedOrderQty > 0
+                        ? `+${selectedProduct.suggestedOrderQty}`
+                        : '0'}{' '}
+                      →{' '}
+                      <span className="text-primary-strong">
+                        {previewMetrics.nextSuggestedOrder > 0
+                          ? `+${previewMetrics.nextSuggestedOrder}`
+                          : '0 (Saludable)'}
+                      </span>
                     </strong>
                   </div>
                 </div>
@@ -306,18 +449,25 @@ export function QuickMovementModal({
               {movementType === 'OUT' &&
                 selectedProduct &&
                 selectedProduct.committedStock > 0 && (
-                  <label className="mt-3 flex cursor-pointer items-center gap-2 rounded-md border border-outline bg-surface/50 p-2.5 text-xs text-on-surface">
+                  <label className="mt-3 flex cursor-pointer items-start gap-2.5 rounded-md border border-outline bg-surface/50 p-2.5 text-xs text-on-surface">
                     <input
                       type="checkbox"
                       checked={fulfillsCommittedOrder}
                       onChange={(e) =>
                         setFulfillsCommittedOrder(e.target.checked)
                       }
-                      className="h-4 w-4 rounded-xs border-outline text-primary focus:ring-primary"
+                      className="mt-0.5 h-4 w-4 rounded-xs border-outline text-primary focus:ring-primary"
                     />
-                    <span>
-                      Despacha orden de la fila (descuenta también de <strong>Stock Comprometido</strong>)
-                    </span>
+                    <div>
+                      <div className="font-semibold">
+                        Entregar orden ya reservada en fila
+                      </div>
+                      <p className="mt-0.5 text-[11px] text-on-surface-muted leading-snug">
+                        {fulfillsCommittedOrder
+                          ? 'Activado: resta de Físico y de Comprometido a la vez (el Disponible ATP se mantiene igual).'
+                          : 'Desactivado: salida directa de piso (resta solo de Físico y reduce el Disponible ATP).'}
+                      </p>
+                    </div>
                   </label>
                 )}
 

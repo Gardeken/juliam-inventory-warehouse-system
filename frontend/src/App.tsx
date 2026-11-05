@@ -109,12 +109,17 @@ export function App() {
   };
 
   const handleMovementSubmit = async (payload: CreateMovementPayload) => {
+    const previousProduct = products.find((p) => p.skuCode === payload.skuCode);
     const res = await postInventoryMovement(payload);
+    const prevPhysical = previousProduct?.physicalStock ?? res.updatedProduct.physicalStock;
+    const prevCommitted = previousProduct?.committedStock ?? res.updatedProduct.committedStock;
+    const prevAtp = previousProduct?.availableStock ?? res.updatedProduct.availableStock;
+
     setToastMessage(
-      `Transacción sellada en Kardex: ${payload.type} (${payload.quantity} unid.) en ${res.updatedProduct.skuCode}. Saldo Físico: ${res.updatedProduct.physicalStock} | ATP: ${res.updatedProduct.availableStock}`,
+      `Kardex actualizado (${res.updatedProduct.skuCode}): Físico ${prevPhysical} → ${res.updatedProduct.physicalStock} | Comprometido ${prevCommitted} → ${res.updatedProduct.committedStock} | Disponible (ATP) ${prevAtp} → ${res.updatedProduct.availableStock}`,
     );
     await loadWarehouseData();
-    setTimeout(() => setToastMessage(null), 5000);
+    setTimeout(() => setToastMessage(null), 6500);
   };
 
   return (
